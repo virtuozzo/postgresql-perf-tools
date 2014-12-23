@@ -48,6 +48,10 @@ class DB:
 	@staticmethod
 	def _execute_fetch(con, query, *args):
 		cur = con.cursor()
+
+	@staticmethod
+	def _execute_fetch(con, query, fetchfn, *args):
+		cur = con.cursor()
 		try:
 			if args is None or not len(args):
 				logging.debug(query)
@@ -55,17 +59,17 @@ class DB:
 			else:
 				logging.debug(query % args)
 				cur.execute(query, args)
-			return cur.fetchall()
+			return fetchfn(cur)
 		finally:
 			cur.close()
 
 	@staticmethod
 	def execute_fetchone(con, query, *args):
-		return DB._execute_fetch(con, query, False, lambda cur : cur.fetchone(), *args)
+		return DB._execute_fetch(con, query, lambda cur : cur.fetchone(), *args)
 
 	@staticmethod
 	def execute_fetchall(con, query, *args):
-		return DB._execute_fetch(con, query, False, lambda cur : cur.fetchall(), *args)
+		return DB._execute_fetch(con, query, lambda cur : cur.fetchall(), *args)
 
 	@staticmethod
 	def execute_fetchval(con, query, *args):

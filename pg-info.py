@@ -50,7 +50,6 @@ class DB:
 				logging.debug(query)
 				cur.execute(query)
 			else:
-				print query, args
 				logging.debug(query % args)
 				cur.execute(query, args)
 			return fetchfn(cur)
