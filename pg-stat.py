@@ -342,7 +342,7 @@ class PgStats:
 		self.hdr_metrics = ""
 		self.fmt = ""
 
-		pg_ver = PgVersion()
+		pg_ver = PgVersion(con)
 		print pg_ver.str
 
 		s_db = PgStatStore("pg_stat_database", ["xact_commit", "xact_rollback", "blks_read", "blks_hit"])
